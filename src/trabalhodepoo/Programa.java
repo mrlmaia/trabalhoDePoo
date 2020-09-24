@@ -23,17 +23,49 @@ public class Programa {
             System.out.println("1- Cadastrar disciplina");
             System.out.println("2- Excluir disciplina");
             System.out.println("3- Listar disciplinas");
+
             opcao = scn.nextInt();
 
             switch (opcao) {
                 case 1:
-                    cadastrarDisciplina(disciplinas, numeroDeDisciplinas);
+                    System.out.println("CADASTRAR DISCIPLINA");
+                    Disciplina disciplina = lerDisciplina();
+                    boolean existe = nomeExiste(disciplinas, disciplina);
+                    if (existe) {
+                        System.out.println("Uma disciplina com nome " + disciplina.nome + " já foi cadastrada");
+                    } else {
+                        // tenta fazer a inserção da disciplina
+                        boolean r = inserir(disciplinas, disciplina, numeroDeDisciplinas);
+                        if (r) {
+                            System.out.println("Disciplina cadastrada com sucesso");
+                            numeroDeDisciplinas++;
+                        } // aumenta o tamanho do vetor e tenta inseri de novo
+                        else if (numeroDeDisciplinas == disciplinas.length) {
+                            disciplinas = aumentarVetor(disciplinas);
+
+                            // tenta fazer a inserção novamente
+                            boolean r2 = inserir(disciplinas, disciplina, numeroDeDisciplinas);
+                            if (r2) {
+                                System.out.println("Disciplina cadastrada com sucesso");
+                                numeroDeDisciplinas++;
+                            } else {
+                                System.out.println("Erro ao cadastrar disciplina");
+                            }
+                        } else {
+                            System.out.println("Erro ao cadastrar disciplina");
+                        }
+                    }
+
                     break;
                 case 2:
                     removerDisciplina(disciplinas);
                     break;
                 case 3:
-                    listarDisciplinas(disciplinas);
+                    if (numeroDeDisciplinas > 0) {
+                        listarDisciplinas(disciplinas);
+                    } else {
+                        System.out.println("Nenhuma disciplina cadastrada");
+                    }
                     break;
                 case 4:
                     break;
@@ -42,36 +74,6 @@ public class Programa {
             }
 
         } while (opcao != 0);
-    }
-
-    private static void cadastrarDisciplina(Disciplina[] disciplinas, int numeroDeDisciplinas) {
-        System.out.println("CADASTRAR DISCIPLINA");
-        Disciplina disciplina = lerDisciplina();
-        boolean existe = nomeExiste(disciplinas, disciplina);
-        if (existe) {
-            System.out.println("Uma disciplina com nome " + disciplina.nome + " já foi cadastrada");
-        } else {
-            // tenta fazer a inserção da disciplina
-            boolean r = inserir(disciplinas, disciplina);
-            if (r) {
-                System.out.println("Disciplina cadastrada com sucesso");
-                numeroDeDisciplinas++;
-            } // aumenta o tamanho do vetor e tenta inseri de novo
-            else if (numeroDeDisciplinas == disciplinas.length) {
-                disciplinas = aumentarVetor(disciplinas);
-
-                // tenta fazer a inserção novamente
-                boolean r2 = inserir(disciplinas, disciplina);
-                if (r2) {
-                    System.out.println("Disciplina cadastrada com sucesso");
-                    numeroDeDisciplinas++;
-                } else {
-                    System.out.println("Erro ao cadastrar disciplina");
-                }
-            } else {
-                System.out.println("Erro ao cadastrar disciplina");
-            }
-        }
     }
 
     static Disciplina lerDisciplina() {
@@ -91,7 +93,7 @@ public class Programa {
     static boolean nomeExiste(Disciplina[] disciplinas, Disciplina disciplina) {
         if (disciplinas != null && disciplina != null) {
             for (int i = 0; i < disciplinas.length; i++) {
-                if (disciplinas[i] != null && disciplina.nome == disciplinas[i].nome) {
+                if (disciplinas[i] != null && disciplinas[i].nome.equalsIgnoreCase(disciplina.nome)) {
                     return true;
                 }
             }
@@ -101,11 +103,12 @@ public class Programa {
         }
     }
 
-    static boolean inserir(Disciplina[] discsiplinas, Disciplina disciplina) {
-        if (discsiplinas != null && disciplina != null) {
-            for (int i = 0; i < discsiplinas.length; i++) {
-                if (discsiplinas[i] == null) {
-                    discsiplinas[i] = disciplina;
+    static boolean inserir(Disciplina[] discisiplinas, Disciplina disciplina, int numeroDeDisciplinas) {
+        if (discisiplinas != null && disciplina != null) {
+            for (int i = 0; i < discisiplinas.length; i++) {
+                if (discisiplinas[i] == null) {
+                    disciplina.codigo = numeroDeDisciplinas + 1;
+                    discisiplinas[i] = disciplina;
                     return true;
                 }
             }
@@ -124,21 +127,18 @@ public class Programa {
         return disciplinas;
     }
 
-    static void listarDisciplinas(Disciplina[] discs) {
-        if (discs != null) {
-            if (discs.length == 0) {
-                System.out.println("Nenhhuma disciplina cadastrada");
-            } else {
-                System.out.println("Codigo\tNome\tNr Vagas\tProfessor");
-                for (int i = 0; i < discs.length; i++) {
-                    if (discs[i] != null) {
-                        System.out.println(discs[i].codigo + 
-                                "\t" + discs[i].nome + 
-                                "\t" + discs[i].numeroDeVagas + 
-                                "\t" + discs[i].nomeDoProfessor);
-                    }
+    static void listarDisciplinas(Disciplina[] disciplinas) {
+        if (disciplinas != null) {
+            System.out.println("Codigo\tNome\tVagas\tProfessor");
+            for (int i = 0; i < disciplinas.length; i++) {
+                if (disciplinas[i] != null) {
+                    System.out.println(disciplinas[i].codigo
+                            + "\t" + disciplinas[i].nome
+                            + "\t" + disciplinas[i].numeroDeVagas
+                            + "\t" + disciplinas[i].nomeDoProfessor);
                 }
             }
+
         }
     }
 
