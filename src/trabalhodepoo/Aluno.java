@@ -9,7 +9,7 @@ import trabalhodepoo.Disciplina;
 
 public class Aluno {
     int codigo;
-    String nomeDoAluno, nomeDaMae, nomeDoPai, endereço;
+    String nome, nomeDaMae, nomeDoPai, endereço;
     Disciplina[] disciplinasMatriculadas;
     float[] notasNasDisciplinas;
 }
