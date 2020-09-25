@@ -67,7 +67,9 @@ public class Programa {
                     }
                     break;
                 case 2:
-                    removerDisciplina(disciplinas);
+                    System.out.println("Informe o código da disciplina que voce deseja excluir");
+                    int codigo = scn.nextInt();
+                    disciplinas = removerDisciplina(disciplinas, alunos, codigo);
                     break;
                 case 3:
                     if (numeroDeDisciplinas > 0) {
@@ -110,7 +112,7 @@ public class Programa {
                     break;
                 case 8:
                     System.out.println("Digite o código do aluno: ");
-                    int codigo = scn.nextInt();
+                    codigo = scn.nextInt();
                     aluno = buscarAluno(alunos, codigo);
 
                     System.out.println("Digite o código da disciplina");
@@ -193,8 +195,16 @@ public class Programa {
         }
     }
 
-    static void removerDisciplina(Disciplina[] discs) {
-        System.out.println("Not");
+    static Disciplina[] removerDisciplina(Disciplina[] disciplinas, Aluno[] alunos, int codigo) {
+        if (disciplinas != null && alunos != null) {
+            for (int i = 0; i < disciplinas.length; i++) {
+                if (disciplinas[i] != null && disciplinas[i].codigo == codigo) {
+                    disciplinas[i] = null;
+                    System.out.println("Disciplina excluída com sucesso");
+                }
+            }
+        }
+        return disciplinas;
     }
 
     private static Aluno lerAluno() {
@@ -283,7 +293,6 @@ public class Programa {
     }
 
     private static void matricularAluno(Aluno aluno, Disciplina disciplina) {
-
         if (aluno != null && disciplina != null) {
             boolean matriculado = false;
             boolean temVagas = false;
@@ -295,7 +304,10 @@ public class Programa {
                     }
                 }
             }
-            if (!matriculado) {
+            if (disciplina.numeroDeAlunosMatriculados < disciplina.numeroDeVagas) {
+                temVagas = true;
+            }
+            if (!matriculado && temVagas) {
                 boolean adicionada = false;
                 for (int i = 0; i < aluno.disciplinasMatriculadas.length; i++) {
                     if (aluno.disciplinasMatriculadas[i] == null && !adicionada) {
