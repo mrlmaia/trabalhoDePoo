@@ -7,6 +7,6 @@ package trabalhodepoo;
 
 
 public class Disciplina {
-    int codigo, ano, numeroDeVagas;
+    int codigo, ano, numeroDeVagas, numeroDeAlunosMatriculados;
     String nome, nomeDoProfessor;
 }

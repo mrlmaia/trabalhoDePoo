@@ -10,6 +10,6 @@ import trabalhodepoo.Disciplina;
 public class Aluno {
     int codigo;
     String nome, nomeDaMae, nomeDoPai, endereço;
-    Disciplina[] disciplinasMatriculadas;
-    float[] notasNasDisciplinas;
+    Disciplina[] disciplinasMatriculadas = new Disciplina[3];
+    float[] notasNasDisciplinas = new float[3];
 }
