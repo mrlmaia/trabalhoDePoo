@@ -24,5 +24,14 @@ hs_err_pid*
 
 # NetBeans
 nbproject/
+# VS Code
+.vscode/
+# intelij
+.idea
+
 /build/
 /dist/
+out/
+build.xml
+manifest.xml
+*.iml
